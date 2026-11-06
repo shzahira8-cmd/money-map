@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Adventure | Money Matters</title>
+<style>
+:root {
+  --pink:#f7b8d2; --pink-dark:#b83270;
+  --lav:#ded0ff; --lav-dark:#6541a5;
+  --mint:#bfeedd; --mint-dark:#176b53;
+  --yellow:#ffe7a0; --ink:#43354a; --white:#fff;
+  --shadow:0 10px 28px rgba(112,65,120,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;background:linear-gradient(135deg,#fff8fc,#f7f2ff 55%,#f3fff9);
+ color:var(--ink);font-family:"Trebuchet MS",Arial,sans-serif;line-height:1.55
+}
+button,input,select{font:inherit}
+a{color:var(--pink-dark)}
+.site-header{
+ position:sticky;top:0;z-index:20;background:rgba(255,250,252,.96);
+ backdrop-filter:blur(12px);border-bottom:1px solid #f1ddec
+}
+.header-inner{
+ max-width:1120px;margin:auto;padding:12px 20px;display:flex;
+ align-items:center;justify-content:space-between;gap:12px
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--pink-dark);font-size:1.08rem}
+.brand-mark{
+ width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,var(--pink),var(--lav));
+ display:grid;place-items:center;font-size:1.35rem
+}
+nav{display:flex;flex-wrap:wrap;gap:6px}
+nav button{
+ border:0;background:transparent;color:var(--ink);padding:9px 12px;
+ border-radius:999px;cursor:pointer;font-weight:800
+}
+nav button:hover,nav button.active{background:var(--pink);color:#6b2046}
+main{max-width:1120px;margin:auto;padding:24px 20px 56px}
+.page{display:none;animation:fade .22s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.hero{
+ border-radius:30px;padding:clamp(26px,5vw,58px);
+ background:linear-gradient(125deg,#f9c5dc,#eadcff 48%,#c8f1df);
+ box-shadow:var(--shadow);position:relative;overflow:hidden
+}
+.hero:after{content:"✦  ✧  ✦";position:absolute;right:22px;top:18px;color:#fff;font-size:2rem;letter-spacing:8px}
+.eyebrow{
+ display:inline-block;background:#fff9;border:1px solid #fff;padding:6px 12px;
+ border-radius:999px;font-size:.82rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase
+}
+h1{font-size:clamp(2.25rem,6vw,4.5rem);line-height:1.04;margin:18px 0 12px;color:#8e2e68;letter-spacing:-.04em}
+h2{font-size:clamp(1.6rem,3vw,2.35rem);color:#8e2e68;line-height:1.15;margin:0 0 12px}
+h3{margin:0 0 8px;color:#60418b}
+p{margin:8px 0 14px}
+.lead{font-size:1.12rem;max-width:700px}
+.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{
+ border:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ padding:12px 17px;border-radius:15px;background:var(--pink-dark);
+ color:#fff!important;font-weight:900;text-decoration:none;cursor:pointer;
+ box-shadow:0 5px 0 #91265a;transition:transform .15s
+}
+.btn:hover{transform:translateY(-2px)}
+.btn.secondary{background:var(--lav-dark);box-shadow:0 5px 0 #4c2d84}
+.btn.mint{background:var(--mint-dark);box-shadow:0 5px 0 #10513f}
+.btn.yellow{background:#a86b00;box-shadow:0 5px 0 #825200}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:34px 0 16px}
+.section-heading p{max-width:570px;color:#6e6174}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:rgba(255,255,255,.94);border:1px solid #f0e3f1;border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.resource-card{display:flex;gap:16px;align-items:flex-start}
+.icon{flex:0 0 54px;width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:1.7rem}
+.pink-bg{background:#ffe0ed}.lav-bg{background:#eee5ff}
+.mint-bg{background:#d8f8e9}.yellow-bg{background:#fff0bd}
+.tag{font-size:.76rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:#7b5d83}
+.list{padding-left:22px}.list li{margin:8px 0}
+.example{background:#fff5fa;border:2px dashed #e8a9ca;border-radius:18px;padding:18px;margin:16px 0}
+.mathline{font-size:clamp(1.4rem,4vw,2rem);font-weight:900;color:#8e2e68;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.step{padding:14px;border-radius:16px;background:#fff;border:1px solid #eee0f4}
+.step b{display:block;color:#8e2e68;margin-bottom:4px}
+.lab-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.control{background:#fff;border:1px solid #eadff1;border-radius:18px;padding:18px}
+.control label{display:flex;justify-content:space-between;gap:8px;font-weight:900}
+input[type=range]{width:100%;accent-color:#b83270;margin:18px 0 8px}
+.total-box{background:linear-gradient(135deg,#d6f7e8,#eee5ff);padding:24px;border-radius:22px;text-align:center;margin-top:16px}
+.total-number{font-size:clamp(2rem,6vw,3rem);font-weight:1000;color:#176b53}
+.small{font-size:.9rem;color:#6e6174}
+.notice{padding:14px 16px;border-radius:14px;background:#fff4cc;border:1px solid #f2dc88;margin:16px 0}
+details{margin:10px 0}details summary{cursor:pointer}
+.quiz-q{padding:18px;background:#fff;border:1px solid #eee0f4;border-radius:18px;margin:14px 0}
+.quiz-q legend{font-weight:900;color:#60418b;padding:0 5px}
+.option{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin:5px 0;cursor:pointer}
+.option:hover{background:#fff2f8}
+.option input{accent-color:#b83270}
+.feedback{font-weight:800;margin-top:8px;padding:10px;border-radius:10px;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#e5f8ed;color:#176b53}
+.feedback.incorrect{background:#fff0f5;color:#a52e55}
+.quiz-progress{margin:18px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid #f3cde1}
+.progress-top{display:flex;justify-content:space-between;gap:10px;font-weight:bold;margin-bottom:10px}
+.progress-track{height:12px;background:#f4e7f3;border-radius:20px;overflow:hidden}
+#progressFill{width:0%;height:100%;background:linear-gradient(90deg,#f4a9ce,#bfa7ff,#a5e7c8);transition:width .3s ease}
+#quizResult{text-align:center;background:linear-gradient(135deg,#ffe5f0,#eee5ff,#e0f9ed);padding:24px 18px;border-radius:20px;border:2px solid #edc8e1;margin:22px 0}
+#scoreNumber{font-size:42px;font-weight:bold;color:#a63879;margin:10px 0}
+.bonus-card{margin-top:25px;padding:22px;border-radius:20px;background:linear-gradient(120deg,#ffe0ed,#eee5ff,#d8f8e9);text-align:center}
+.bonus-card h2{color:#a63879}.bonus-card p{line-height:1.6}
+.game-code{display:inline-block;background:#fff;padding:8px 14px;border-radius:12px;border:1px solid #f1c6dd}
+footer{text-align:center;padding:26px 18px;background:#fff7fc;border-top:1px solid #f1ddec;color:#76677c;font-size:.9rem}
+hr{border:0;border-top:1px solid #efe2f1;margin:24px 0}
+.teacher-hero{background:linear-gradient(125deg,#f9c5dc,#eadcff 48%,#c8f1df);border:2px solid #fff;border-radius:28px;padding:clamp(22px,4vw,40px);box-shadow:var(--shadow);margin-bottom:20px}
+.teacher-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px}
+.teacher-tabs button{border:2px solid #d9c5e8;background:#fff8e8;color:#51445c;padding:10px 14px;border-radius:14px;font-weight:800;cursor:pointer}
+.teacher-tabs button.active,.teacher-tabs button:hover{background:#e5d8ff;border-color:#9b83c6;color:#49346e}
+.teacher-panel{display:none}.teacher-panel.active{display:block}
+.teacher-panel h2{color:#60418b}.teacher-panel h3{color:#8e2e68}
+.teacher-note{background:#fff7df;border:1px solid #efd99c;padding:15px;border-radius:15px;margin:14px 0}
+.teacher-table{width:100%;border-collapse:collapse;margin:12px 0;background:#fff;border-radius:14px;overflow:hidden}
+.teacher-table th,.teacher-table td{border:1px solid #eadff1;padding:11px;text-align:left;vertical-align:top}
+.teacher-table th{background:#f5eaff;color:#60418b}
+.teacher-table input,.teacher-table textarea{width:100%;border:1px solid #dfd1e8;border-radius:8px;padding:8px}
+.teacher-panel .card{box-shadow:none}
+.teacher-resource a{overflow-wrap:anywhere}
+@media(max-width:760px){
+ .header-inner{align-items:flex-start;flex-direction:column}
+ nav{width:100%}nav button{padding:8px 10px;font-size:.88rem}
+ .grid,.lab-controls{grid-template-columns:1fr}
+ .steps{grid-template-columns:repeat(2,1fr)}
+ .resource-card{gap:12px}.card{padding:18px}
+}
+@media(max-width:650px){.teacher-tabs button{flex:1 1 42%;font-size:.85rem;padding:9px}.teacher-table{display:block;overflow-x:auto}}
+@media(max-width:480px){main{padding:16px 12px 40px}.quiz-q{padding:14px}.progress-top{font-size:.85rem}}
+@media print{.site-header,.button-row,button{display:none!important}.page{display:block!important;page-break-after:always}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="site-header">
+ <div class="header-inner">
+  <div class="brand"><span class="brand-mark">🎀</span><span>Math Adventure<br><span style="font-size:.75rem;color:#6e6174;font-weight:700">Money Matters · Year 3</span></span></div>
+  <nav aria-label="Main navigation">
+   <button class="active" data-page="home">🏠 Home</button>
+   <button data-page="learn">📚 Learn It</button>
+   <button data-page="explore">🔍 Explore It</button>
+   <button data-page="shop">🛍️ Shop &amp; Solve</button>
+   <button data-page="quiz">🏆 Quiz Quest</button>
+   <button data-page="encouragement">💖 Words of Encouragement</button>
+   <button data-page="teacher">👩‍🏫 Teacher's Corner</button>
+  </nav>
+ </div>
+</header>
+<main>
+
+<!-- HOME -->
+<section class="page active" id="home">
+ <div class="hero">
+  <span class="eyebrow">Year 3 Mathematics · Numbers &amp; Operations</span>
+  <h1>Money Matters:<br>Let's Add! ✨</h1>
+  <p class="lead">Hello, little mathematicians! 💗 Welcome to a pastel-coloured world where we learn to add money, explore changing values, shop for school supplies and become confident Money Masters.</p>
+  <div class="button-row">
+   <button class="btn" data-go="learn">Start Learning 💗</button>
+   <button class="btn secondary" data-go="explore">Enter the Money Lab 🔍</button>
+  </div>
+ </div>
+ <div class="section-heading"><div><h2>🌈 Your Learning Journey</h2><p>Four connected activities take you from understanding to exploring, applying and checking your learning.</p></div></div>
+ <div class="grid">
+  <article class="card resource-card"><div class="icon pink-bg">📚</div><div><span class="tag">01 · Understand</span><h3>Learn It!</h3><p>Discover how to add money values using clear explanations, place value and step-by-step learning materials.</p><button class="btn" data-go="learn">Start Learning →</button></div></article>
+  <article class="card resource-card"><div class="icon lav-bg">🔍</div><div><span class="tag">02 · Explore</span><h3>Explore It!</h3><p>Experiment with money values in the interactive Money Lab and solve detective challenges.</p><button class="btn secondary" data-go="explore">Explore Now →</button></div></article>
+  <article class="card resource-card"><div class="icon mint-bg">🛍️</div><div><span class="tag">03 · Apply</span><h3>Shop &amp; Solve!</h3><p>Visit the mini market, choose items and practise adding money in everyday situations.</p><button class="btn mint" data-go="shop">Visit Market →</button></div></article>
+  <article class="card resource-card"><div class="icon yellow-bg">🏆</div><div><span class="tag">04 · Check</span><h3>Quiz Quest!</h3><p>Test your understanding and celebrate your progress with a fun quiz.</p><button class="btn yellow" data-go="quiz">Take the Quiz →</button></div></article>
+ </div>
+ <div class="bonus-card"><h2>💗 Ready to Become a Money Master?</h2><p>Learn at your own pace. Explore, practise and have fun with mathematics!</p><button class="btn" data-go="learn">Let's Begin!</button></div>
+</section>
+
+<!-- LEARN IT -->
+<section class="page" id="learn">
+ <div class="hero">
+  <span class="eyebrow">📚 Station 01 · Understand</span>
+  <h1>Learn It! 💗</h1>
+  <p class="lead">Let's learn how to add money using Malaysian Ringgit (RM) and sen. Follow the steps and remember to line up the decimal points!</p>
+ </div>
+ <div class="section-heading"><div><h2>🎯 Learning Objectives</h2><p>By the end of this lesson, you should be able to:</p></div></div>
+ <div class="grid">
+  <div class="card"><h3>1. Identify money values</h3><p>Recognise and read amounts in RM and sen.</p></div>
+  <div class="card"><h3>2. Add money</h3><p>Add two or more money amounts accurately.</p></div>
+  <div class="card"><h3>3. Use place value</h3><p>Align ringgit, decimal points and sen correctly.</p></div>
+  <div class="card"><h3>4. Solve daily problems</h3><p>Apply money addition in shopping situations.</p></div>
+ </div>
+ <div class="section-heading"><div><h2>🧮 How to Add Money</h2><p>Follow these four simple steps.</p></div></div>
+ <div class="steps">
+  <div class="step"><b>Step 1</b>Write the amounts clearly.</div>
+  <div class="step"><b>Step 2</b>Align the decimal points.</div>
+  <div class="step"><b>Step 3</b>Add the sen and ringgit.</div>
+  <div class="step"><b>Step 4</b>Check your final answer.</div>
+ </div>
+ <div class="example">
+  <h3>✨ Worked Example</h3>
+  <p>Aina buys a pencil for RM2.50 and an eraser for RM1.25. How much does she spend altogether?</p>
+  <div class="mathline">RM2.50 + RM1.25 = RM3.75</div>
+  <p><strong>Answer:</strong> Aina spends RM3.75 altogether.</p>
+  <details><summary><strong>Show the calculation</strong></summary><p>50 sen + 25 sen = 75 sen.</p><p>RM2 + RM1 = RM3.</p><p>Total = RM3.75.</p></details>
+ </div>
+ <div class="card">
+  <h2>🎥 Learn with the Lesson Slides</h2>
+  <p>Open the learning slides to review the explanation and examples.</p>
+  <div style="position:relative;width:100%;padding-top:56.25%;border-radius:16px;overflow:hidden">
+   <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRmRy9zsdWv8lp_cDHG3ubAgZKWbZkLlPDnFszLi4yw2iwRZ9pJfeh90gZbQpcR4LKCvmuvIQ2THU39/pubembed?start=true&amp;loop=true&amp;delayms=3000" title="Learn It Google Slides" style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen></iframe>
+  </div>
+  <p class="small">If the slides do not appear, use the link below.</p>
+  <a class="btn" href="https://docs.google.com/presentation/d/1bDn7kJJfVZO6Lc3-D1jgBWLs86KCxsthIFsyspmdUK8/edit?usp=sharing" target="_blank" rel="noopener">Open Learning Slides ↗</a>
+ </div>
+ <div class="button-row"><button class="btn secondary" data-go="home">← Home</button><button class="btn mint" data-go="explore">Next: Explore It →</button></div>
+</section>
+
+<!-- EXPLORE IT -->
+<section class="page" id="explore">
+ <div class="hero">
+  <span class="eyebrow">🔍 Station 02 · Explore</span>
+  <h1>Explore It! 🕵️</h1>
+  <p class="lead">Welcome to the Money Lab! Experiment with different amounts and become a Money Detective by solving the challenges.</p>
+ </div>
+ <div class="section-heading"><div><h2>🧪 Interactive Money Lab</h2><p>Move the sliders to change the amounts. Watch the total update automatically!</p></div></div>
+ <div class="card">
+  <div class="lab-controls">
+   <div class="control"><label for="amountA">Amount A <span id="labelA">RM12.50</span></label><input id="amountA" type="range" min="0" max="10000" step="25" value="1250"><p class="small">Adjust the first amount.</p></div>
+   <div class="control"><label for="amountB">Amount B <span id="labelB">RM23.75</span></label><input id="amountB" type="range" min="0" max="10000" step="25" value="2375"><p class="small">Adjust the second amount.</p></div>
+  </div>
+  <div class="total-box"><div class="tag">Your Total</div><div class="total-number" id="total">RM36.25</div><div class="mathline" id="equation">RM12.50 + RM23.75 = RM36.25</div><p id="limitNote">Great exploring! The total is within RM10,000.</p><button class="btn secondary" id="resetLab" type="button">Reset Amounts ↻</button></div>
+ </div>
+ <div class="section-heading"><div><h2>🕵️ Money Detectives</h2><p>Read each mission carefully and enter the correct total in sen. Complete all three to earn your Money Detective badge!</p></div></div>
+ <div class="card">
+  <div class="quiz-progress"><div class="progress-top"><span>Detective Missions Completed</span><span id="missionScore">0/3</span></div><div class="progress-track"><div id="missionFill" style="height:100%;width:0%;background:#b83270"></div></div></div>
+  <div class="quiz-q"><h3>🔎 Mission 1: The Pencil Case</h3><p>A pencil case costs RM12.50 and a ruler costs RM23.75. Find the total in sen.</p><input id="missionAnswer1" type="number" min="0" placeholder="Enter answer in sen"><button class="btn" onclick="checkMoneyMission(1,document.getElementById('missionAnswer1').value)">Check Answer</button><div id="missionFeedback1" class="feedback"></div></div>
+  <div class="quiz-q"><h3>🔎 Mission 2: The Art Set</h3><p>An art set costs RM18.50 and colour pencils cost RM19.00. Find the total in sen.</p><input id="missionAnswer2" type="number" min="0" placeholder="Enter answer in sen"><button class="btn" onclick="checkMoneyMission(2,document.getElementById('missionAnswer2').value)">Check Answer</button><div id="missionFeedback2" class="feedback"></div></div>
+  <div class="quiz-q"><h3>🔎 Mission 3: The School Bag</h3><p>A school bag costs RM45.25 and a lunch box costs RM27.00. Find the total in sen.</p><input id="missionAnswer3" type="number" min="0" placeholder="Enter answer in sen"><button class="btn" onclick="checkMoneyMission(3,document.getElementById('missionAnswer3').value)">Check Answer</button><div id="missionFeedback3" class="feedback"></div></div>
+  <div class="bonus-card"><h2>🏅 Your Detective Badge</h2><p id="missionResult">Complete all three challenges to collect your badge!</p><button class="btn secondary" onclick="resetMoneyMission()">Try Again ↻</button></div>
+ </div>
+ <div class="card" style="margin-top:20px">
+  <h2>🎮 More Money Detective Adventures</h2>
+  <p>Open the interactive Genially activity to investigate money clues and solve more challenges.</p>
+  <div style="position:relative;width:100%;padding-top:56.25%;overflow:hidden;border-radius:16px">
+   <iframe src="https://view.genially.com/6ade12c016fb94416fbd1c38" title="Money Detectives Genially" style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen></iframe>
+  </div>
+  <p class="small">If Genially blocks embedding, open the activity directly.</p>
+  <a class="btn secondary" href="https://view.genially.com/6ade12c016fb94416fbd1c38" target="_blank" rel="noopener">Open Money Detectives ↗</a>
+ </div>
+ <div class="button-row"><button class="btn secondary" data-go="learn">← Learn It</button><button class="btn mint" data-go="shop">Next: Shop &amp; Solve →</button></div>
+</section>
+
+<!-- SHOP & SOLVE -->
+<section class="page" id="shop">
+ <div class="hero">
+  <span class="eyebrow">🛍️ Station 03 · Apply</span>
+  <h1>Shop &amp; Solve! 🛒</h1>
+  <p class="lead">Welcome to the Mini Market Adventure! Become a smart shopper and practise adding money while choosing your favourite items.</p>
+ </div>
+ <div class="section-heading"><div><h2>🛒 Mini Market Adventure</h2><p>Explore the Canva activity and solve shopping challenges.</p></div></div>
+ <div class="card">
+  <h3>🎯 Your Shopping Mission</h3>
+  <ul class="list"><li>Explore the mini market.</li><li>Choose the items you want to buy.</li><li>Add the prices carefully.</li><li>Check whether your total is within your budget.</li></ul>
+  <div class="notice"><strong>Money Master Tip:</strong> Remember to align the decimal points when adding money values!</div>
+  <div style="position:relative;width:100%;padding-top:56.25%;overflow:hidden;border-radius:16px">
+   <iframe src="https://canva.link/mini-market-money-adventure-app" title="Mini Market Money Adventure" style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen></iframe>
+  </div>
+  <p class="small">If the Canva activity cannot be embedded, open it directly using the button below.</p>
+  <a class="btn" href="https://canva.link/mini-market-money-adventure-app" target="_blank" rel="noopener">Enter Mini Market ↗</a>
+ </div>
+ <div class="grid" style="margin-top:18px">
+  <div class="card"><h3>🎯 What You Are Practising</h3><ul class="list"><li>Adding two or more mon
